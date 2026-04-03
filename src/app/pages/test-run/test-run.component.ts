@@ -41,8 +41,49 @@ interface CategoryGroup {
   imports: [RouterLink, FormsModule],
   template: `
     @if (loading()) {
-      <div class="flex items-center justify-center h-96">
-        <div class="text-gray-400">იტვირთება...</div>
+      <div class="p-6 lg:p-8 max-w-6xl mx-auto animate-pulse">
+        <!-- Skeleton Header -->
+        <div class="mb-6">
+          <div class="h-4 w-16 bg-gray-800 rounded mb-4"></div>
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="h-8 w-72 bg-gray-800 rounded mb-2"></div>
+              <div class="h-4 w-48 bg-gray-800/60 rounded"></div>
+            </div>
+            <div class="h-10 w-32 bg-gray-800 rounded-lg"></div>
+          </div>
+        </div>
+        <!-- Skeleton Progress -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 mb-6">
+          <div class="flex justify-between mb-3">
+            <div class="h-4 w-20 bg-gray-800 rounded"></div>
+            <div class="h-4 w-36 bg-gray-800 rounded"></div>
+          </div>
+          <div class="h-3 w-full bg-gray-800 rounded-full"></div>
+          <div class="flex gap-6 mt-3">
+            <div class="h-3 w-24 bg-gray-800/60 rounded"></div>
+            <div class="h-3 w-24 bg-gray-800/60 rounded"></div>
+            <div class="h-3 w-28 bg-gray-800/60 rounded"></div>
+            <div class="h-3 w-24 bg-gray-800/60 rounded"></div>
+          </div>
+        </div>
+        <!-- Skeleton Tabs -->
+        <div class="flex gap-1 mb-6 bg-gray-900 border border-gray-800 rounded-xl p-1.5">
+          @for (i of [1,2,3,4,5]; track i) {
+            <div class="h-9 w-28 bg-gray-800 rounded-lg"></div>
+          }
+        </div>
+        <!-- Skeleton Cards -->
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-5 mb-3">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="h-4 w-14 bg-gray-800 rounded"></div>
+              <div class="h-4 w-16 bg-gray-800/60 rounded"></div>
+              <div class="h-4 w-16 bg-gray-800/40 rounded-full"></div>
+            </div>
+            <div class="h-5 w-3/4 bg-gray-800/60 rounded"></div>
+          </div>
+        }
       </div>
     } @else if (run()) {
       <div class="p-6 lg:p-8 max-w-6xl mx-auto">
