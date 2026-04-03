@@ -93,10 +93,10 @@ interface CategoryGroup {
             }
           </div>
           <div class="flex items-center gap-6 mt-3 text-xs">
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> გავლილი: {{ passedCount() }}</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> ჩავარდნილი: {{ failedCount() }}</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-gray-500"></span> გამოტოვებული: {{ skippedCount() }}</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> მომლოდინე: {{ pendingCount() }}</span>
+            <span class="flex items-center gap-1.5 text-green-400"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> გავლილი: {{ passedCount() }}</span>
+            <span class="flex items-center gap-1.5 text-red-400"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> ჩავარდნილი: {{ failedCount() }}</span>
+            <span class="flex items-center gap-1.5 text-gray-400"><span class="w-2.5 h-2.5 rounded-full bg-gray-500"></span> გამოტოვებული: {{ skippedCount() }}</span>
+            <span class="flex items-center gap-1.5 text-yellow-400"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> მომლოდინე: {{ pendingCount() }}</span>
           </div>
         </div>
 
@@ -144,24 +144,26 @@ interface CategoryGroup {
             @if (!isCategoryCollapsed(group.category)) {
               <div class="mt-2 space-y-2 pl-2">
                 @for (result of group.results; track result.id) {
-                  <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden transition hover:border-gray-700">
+                  <div
+                    [class]="result.status === 'passed' ? 'border-l-green-500/40' : result.status === 'failed' ? 'border-l-red-500/40' : result.status === 'skipped' ? 'border-l-gray-500/40' : 'border-l-yellow-500/20'"
+                    class="bg-gray-900/70 border border-gray-800 border-l-[3px] rounded-xl overflow-hidden transition hover:border-gray-700 hover:bg-gray-900">
                     <!-- Card Main Row -->
                     <div class="flex items-center gap-4 px-5 py-4">
                       <!-- Left: Info -->
-                      <div class="flex-1 min-w-0 cursor-pointer" (click)="toggleExpand(result.id)">
-                        <div class="flex items-center gap-2.5 mb-1">
-                          <span class="text-xs font-mono text-gray-500">{{ result.testCase.code }}</span>
+                      <div class="flex-1 min-w-0 cursor-pointer group" (click)="toggleExpand(result.id)">
+                        <div class="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                          <span class="text-xs font-mono font-bold text-orange-400/70">{{ result.testCase.code }}</span>
                           <span [class]="priorityClass(result.testCase.priority)"
-                            class="px-2 py-0.5 rounded text-[10px] font-bold uppercase">
+                            class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">
                             {{ result.testCase.priority }}
                           </span>
-                          <!-- Status Badge -->
                           <span [class]="statusBadgeClass(result.status)"
-                            class="px-2 py-0.5 rounded text-[10px] font-semibold">
+                            class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
                             {{ statusLabel(result.status) }}
                           </span>
+                          <svg class="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </div>
-                        <p class="text-sm text-white font-medium truncate">{{ result.testCase.title }}</p>
+                        <p class="text-[0.9rem] text-gray-200 font-medium leading-snug group-hover:text-white transition">{{ result.testCase.title }}</p>
                       </div>
 
                       <!-- Right: Action Buttons -->
@@ -194,43 +196,49 @@ interface CategoryGroup {
 
                     <!-- Expanded Details -->
                     @if (isExpanded(result.id)) {
-                      <div class="px-5 pb-4 border-t border-gray-800 pt-4 space-y-3">
+                      <div class="px-5 pb-5 border-t border-gray-800/60 pt-4 space-y-4 bg-gray-950/30">
                         @if (result.testCase.precondition) {
-                          <div>
-                            <p class="text-xs font-semibold text-gray-500 uppercase mb-1">წინაპირობა</p>
-                            <p class="text-sm text-gray-300">{{ result.testCase.precondition }}</p>
+                          <div class="bg-blue-500/5 border border-blue-500/10 rounded-lg px-4 py-3">
+                            <p class="text-[11px] font-bold text-blue-400/80 uppercase tracking-wider mb-1.5">წინაპირობა</p>
+                            <p class="text-sm text-gray-300 leading-relaxed">{{ result.testCase.precondition }}</p>
                           </div>
                         }
                         <div>
-                          <p class="text-xs font-semibold text-gray-500 uppercase mb-1">ნაბიჯები</p>
-                          <ol class="list-decimal list-inside space-y-1">
+                          <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">ნაბიჯები</p>
+                          <ol class="space-y-1.5">
                             @for (step of parseSteps(result.testCase.steps); track $index) {
-                              <li class="text-sm text-gray-300">{{ step }}</li>
+                              <li class="flex gap-2.5 text-sm text-gray-300 leading-relaxed">
+                                <span class="text-orange-400/60 font-mono font-bold text-xs mt-0.5 shrink-0">{{ $index + 1 }}.</span>
+                                <span>{{ step }}</span>
+                              </li>
                             }
                           </ol>
                         </div>
-                        <div>
-                          <p class="text-xs font-semibold text-gray-500 uppercase mb-1">მოსალოდნელი შედეგი</p>
-                          <p class="text-sm text-gray-300">{{ result.testCase.expectedResult }}</p>
+                        <div class="bg-green-500/5 border border-green-500/10 rounded-lg px-4 py-3">
+                          <p class="text-[11px] font-bold text-green-400/80 uppercase tracking-wider mb-1.5">მოსალოდნელი შედეგი</p>
+                          <p class="text-sm text-gray-300 leading-relaxed">{{ result.testCase.expectedResult }}</p>
                         </div>
                       </div>
                     }
 
-                    <!-- Failure Comment -->
-                    @if (result.status === 'failed' && run()!.status === 'in_progress') {
-                      <div class="px-5 pb-4" [class.border-t]="!isExpanded(result.id)" [class.border-gray-800]="!isExpanded(result.id)" [class.pt-3]="!isExpanded(result.id)">
-                        <label class="text-xs font-semibold text-red-400 uppercase mb-1 block">კომენტარი (რატომ ჩავარდა?)</label>
+                    <!-- Comment Field (always visible in edit mode) -->
+                    @if (run()!.status === 'in_progress') {
+                      <div class="px-5 pb-4 border-t border-gray-800/40 pt-3">
+                        <label class="text-[11px] font-bold uppercase tracking-wider mb-1.5 block"
+                          [class]="result.status === 'failed' ? 'text-red-400' : 'text-gray-500'">
+                          კომენტარი
+                        </label>
                         <div class="flex gap-2">
                           <textarea
                             [ngModel]="result.comment || ''"
                             (ngModelChange)="onCommentChange(result, $event)"
-                            class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-red-500 resize-none"
-                            rows="2"
-                            placeholder="აღწერეთ პრობლემა..."></textarea>
+                            class="flex-1 px-3 py-2 bg-gray-800/60 border border-gray-700/50 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-orange-500 resize-none"
+                            rows="3"
+                            placeholder="შენიშვნა..."></textarea>
                           <button
                             (click)="saveComment(result)"
                             [disabled]="savingCommentId() === result.id"
-                            class="px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 rounded-lg text-xs font-semibold hover:bg-red-600/30 transition self-end disabled:opacity-50">
+                            class="px-4 py-2 bg-orange-600/15 text-orange-400 border border-orange-500/20 rounded-lg text-xs font-semibold hover:bg-orange-600/25 transition self-end disabled:opacity-50">
                             {{ savingCommentId() === result.id ? '...' : 'შენახვა' }}
                           </button>
                         </div>
@@ -238,9 +246,9 @@ interface CategoryGroup {
                     }
 
                     <!-- Show saved comment in read mode -->
-                    @if (result.status === 'failed' && result.comment && run()!.status === 'completed') {
+                    @if (result.comment && run()!.status === 'completed') {
                       <div class="px-5 pb-4 border-t border-gray-800 pt-3">
-                        <p class="text-xs font-semibold text-red-400 uppercase mb-1">კომენტარი</p>
+                        <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">კომენტარი</p>
                         <p class="text-sm text-gray-300">{{ result.comment }}</p>
                       </div>
                     }
@@ -392,7 +400,8 @@ export class TestRunComponent implements OnInit {
   }
 
   setStatus(result: TestResultData, status: ResultStatus): void {
-    if (result.status === status || this.updatingId()) return;
+    if (result.status === status) return;
+    if (this.updatingId()) return;
     this.updatingId.set(result.id);
 
     this.api.updateTestResult(result.id, status, undefined).subscribe({
@@ -400,7 +409,8 @@ export class TestRunComponent implements OnInit {
         this.updateResultLocally(result.id, status);
         this.updatingId.set(null);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Failed to update result:', err);
         this.updatingId.set(null);
       },
     });

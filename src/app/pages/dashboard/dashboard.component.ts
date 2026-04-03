@@ -23,22 +23,42 @@ import { AuthService } from '../../services/auth.service';
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <p class="text-3xl font-bold text-white">{{ runs().length }}</p>
-          <p class="text-sm text-gray-400 mt-1">სულ რანები</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <div class="bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">სულ რანები</p>
+          </div>
+          <p class="text-4xl font-bold text-white">{{ runs().length }}</p>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <p class="text-3xl font-bold text-green-400">{{ avgPassRate() }}%</p>
-          <p class="text-sm text-gray-400 mt-1">საშუალო გავლის %</p>
+        <div class="bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">საშუალო გავლის %</p>
+          </div>
+          <p class="text-4xl font-bold text-green-400">{{ avgPassRate() }}%</p>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <p class="text-3xl font-bold text-red-400">{{ totalFailed() }}</p>
-          <p class="text-sm text-gray-400 mt-1">სულ ჩავარდნილი</p>
+        <div class="bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">სულ ჩავარდნილი</p>
+          </div>
+          <p class="text-4xl font-bold text-red-400">{{ totalFailed() }}</p>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <p class="text-3xl font-bold text-blue-400">{{ inProgress() }}</p>
-          <p class="text-sm text-gray-400 mt-1">მიმდინარე</p>
+        <div class="bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">მიმდინარე</p>
+          </div>
+          <p class="text-4xl font-bold text-yellow-400">{{ inProgress() }}</p>
         </div>
       </div>
 
